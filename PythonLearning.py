@@ -44,6 +44,28 @@ commands = {
         "syntax": "import module",
         "example": "import math\nprint(math.sqrt(16))"
     },
+    "input": {
+        "syntax": "input(prompt)",
+        "example": "name = input(Enter your name: )\nprint(name)"
+    },
+    "len": {
+        "syntax": "len(object)",
+        "example": "my_list = [1, 2, 3, 4]\nlen(my_list)"
+    },
+    "map": {
+        "syntax": "map(function, iterable)",
+        "example": "print(list(map(lambda x: x ** 2, [1, 2, 3])))"
+    },
+    "filter": {
+        "syntax": "filter(function, iterable)",
+        "example": "print(list(filter(lambda x: x < 5, [1, 2, 3, 4, 5])))"
+    },
+    "decorators": {
+        "syntax": "@decorator(function)",
+        "example": "def my_decorator(func):\n\tdef caller():\n\t\tprint(before called.)"
+                   "\n\t\tfunc()\n\t\tprint(after called.)\n\treturn caller\n"
+                   "\n@my_decorator\ndef say_hi():\n\tprint(Hi)\nsay_hi()",
+    },
 }
 
 
