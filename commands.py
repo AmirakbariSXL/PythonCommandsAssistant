@@ -1,7 +1,3 @@
-import tkinter as tk
-from tkinter import ttk
-
-# follow us in telegram channel :@pythonism_xl
 
 commands = {
     "print": {
@@ -44,7 +40,6 @@ commands = {
         "syntax": "import module\nfrom module import function\nfrom module import function as alias\nfrom module import *",
         "example": "import math\nprint(math.pi)\n\nfrom random import randint\nprint(randint(1, 6))\n\nfrom datetime import datetime as dt\nprint(dt.now())\n\nfrom string import *\nprint(ascii_lowercase)"
     },
-
     "with": {
         "syntax": "with expression as variable:\n    # code block",
         "example": "import tempfile\nimport os\n\nwith tempfile.TemporaryDirectory() as temp_dir:\n    path = os.path.join(temp_dir, 'temp_file.txt')\n    with open(path, 'w') as f:\n        f.write('Hello, World!')\n    # File is automatically closed and directory is cleaned up"
@@ -184,90 +179,77 @@ commands = {
     "sqlalchemy": {
         "syntax": "from sqlalchemy import create_engine, Column, Integer, String\nfrom sqlalchemy.ext.declarative import declarative_base\nfrom sqlalchemy.orm import sessionmaker",
         "example": "from sqlalchemy import create_engine, Column, Integer, String\nfrom sqlalchemy.ext.declarative import declarative_base\nfrom sqlalchemy.orm import sessionmaker\n\nBase = declarative_base()\n\nclass User(Base):\n    __tablename__ = 'users'\n    id = Column(Integer, primary_key=True)\n    name = Column(String)\n    age = Column(Integer)\n\nengine = create_engine('sqlite:///example.db')\nBase.metadata.create_all(engine)\n\nSession = sessionmaker(bind=engine)\nsession = Session()\n\nnew_user = User(name='Alice', age=30)\nsession.add(new_user)\nsession.commit()\n\nusers = session.query(User).all()\nfor user in users:\n    print(f'{user.name}, {user.age} years old')"
+    },
+    "asyncio with aiohttp": {
+        "syntax": "import asyncio\nimport aiohttp",
+        "example": "import asyncio\nimport aiohttp\n\nasync def fetch(session, url):\n    async with session.get(url) as response:\n        return await response.text()\n\nasync def main():\n    urls = ['http://python.org', 'http://example.com', 'http://github.com']\n    async with aiohttp.ClientSession() as session:\n        tasks = [fetch(session, url) for url in urls]\n        responses = await asyncio.gather(*tasks)\n        for url, response in zip(urls, responses):\n            print(f'{url}: {len(response)} bytes')\n\nasyncio.run(main())"
+    },
+    "fastapi basics": {
+        "syntax": "from fastapi import FastAPI",
+        "example": "from fastapi import FastAPI\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass Item(BaseModel):\n    name: str\n    price: float\n\n@app.post('/items/')\nasync def create_item(item: Item):\n    return {'item_name': item.name, 'item_price': item.price}\n\n@app.get('/items/{item_id}')\nasync def read_item(item_id: int):\n    return {'item_id': item_id}\n\n# Run with: uvicorn main:app --reload"
+    },
+    "django basics": {
+        "syntax": "from django.db import models\nfrom django.shortcuts import render",
+        "example": "# models.py\nfrom django.db import models\n\nclass Post(models.Model):\n    title = models.CharField(max_length=200)\n    content = models.TextField()\n    pub_date = models.DateTimeField('date published')\n\n# views.py\nfrom django.shortcuts import render\nfrom .models import Post\n\ndef post_list(request):\n    posts = Post.objects.order_by('-pub_date')[:5]\n    return render(request, 'blog/post_list.html', {'posts': posts})"
+    },
+    "flask basics": {
+        "syntax": "from flask import Flask, request, jsonify",
+        "example": "from flask import Flask, request, jsonify\n\napp = Flask(__name__)\n\n@app.route('/')\ndef hello_world():\n    return 'Hello, World!'\n\n@app.route('/api/data', methods=['POST'])\ndef receive_data():\n    data = request.json\n    return jsonify({'received': data}), 201\n\nif __name__ == '__main__':\n    app.run(debug=True)"
+    },
+    "pytorch basics": {
+        "syntax": "import torch\nimport torch.nn as nn\nimport torch.optim as optim",
+        "example": "import torch\nimport torch.nn as nn\nimport torch.optim as optim\n\nclass SimpleNet(nn.Module):\n    def __init__(self):\n        super(SimpleNet, self).__init__()\n        self.fc = nn.Linear(10, 5)\n\n    def forward(self, x):\n        return self.fc(x)\n\nmodel = SimpleNet()\ninput_data = torch.randn(3, 10)\noutput = model(input_data)\nprint(output)"
+    },
+    "tensorflow basics": {
+        "syntax": "import tensorflow as tf",
+        "example": "import tensorflow as tf\n\nmn = tf.keras.models.Sequential([\n    tf.keras.layers.Dense(64, activation='relu', input_shape=(10,)),\n    tf.keras.layers.Dense(32, activation='relu'),\n    tf.keras.layers.Dense(1, activation='sigmoid')\n])\n\nmodel.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])\n\n# Assuming you have x_train and y_train data\n# model.fit(x_train, y_train, epochs=10, batch_size=32)"
+    },
+    "pyspark basics": {
+        "syntax": "from pyspark.sql import SparkSession",
+        "example": "from pyspark.sql import SparkSession\nfrom pyspark.sql.functions import col\n\nspark = SparkSession.builder.appName('PySparkExample').getOrCreate()\n\ndf = spark.createDataFrame([(1, 'John'), (2, 'Jane'), (3, 'Doe')], ['id', 'name'])\nresult = df.filter(col('id') > 1).select('name')\nresult.show()"
+    },
+    "scikit-learn basics": {
+        "syntax": "from sklearn import datasets, model_selection, svm",
+        "example": "from sklearn import datasets, model_selection, svm\n\niris = datasets.load_iris()\nX_train, X_test, y_train, y_test = model_selection.train_test_split(iris.data, iris.target, test_size=0.3)\n\nclf = svm.SVC()\nclf.fit(X_train, y_train)\n\naccuracy = clf.score(X_test, y_test)\nprint(f'Accuracy: {accuracy}')"
+    },
+    "type checking with mypy": {
+        "syntax": "# Run: mypy script.py",
+        "example": "from typing import List, Dict\n\ndef process_items(items: List[int]) -> Dict[str, int]:\n    result: Dict[str, int] = {}\n    for item in items:\n        result[str(item)] = item * 2\n    return result\n\ndef main() -> None:\n    data = [1, 2, 3]\n    processed = process_items(data)\n    print(processed)\n\nif __name__ == '__main__':\n    main()\n\n# Run: mypy script.py"
+    },
+    "concurrent.futures": {
+        "syntax": "from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor",
+        "example": "import concurrent.futures\nimport time\n\ndef task(n):\n    time.sleep(n)\n    return f'Slept for {n} seconds'\n\nwith concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:\n    futures = [executor.submit(task, i) for i in range(3)]\n    for future in concurrent.futures.as_completed(futures):\n        print(future.result())"
+    },
+    "websockets": {
+        "syntax": "import websockets",
+        "example": "import asyncio\nimport websockets\n\nasync def echo(websocket, path):\n    async for message in websocket:\n        await websocket.send(f'Echo: {message}')\n\nasync def main():\n    server = await websockets.serve(echo, 'localhost', 8765)\n    await server.wait_closed()\n\nasyncio.run(main())"
+    },
+    "cryptography": {
+        "syntax": "from cryptography.fernet import Fernet",
+        "example": "from cryptography.fernet import Fernet\n\nkey = Fernet.generate_key()\nf = Fernet(key)\ntoken = f.encrypt(b'Secret message')\nprint(token)\ndecrypted = f.decrypt(token)\nprint(decrypted)  # b'Secret message'"
+    },
+    "graphene (GraphQL)": {
+        "syntax": "import graphene",
+        "example": "import graphene\n\nclass Query(graphene.ObjectType):\n    hello = graphene.String(name=graphene.String(default_value='World'))\n\n    def resolve_hello(self, info, name):\n        return f'Hello {name}'\n\nschema = graphene.Schema(query=Query)\nresult = schema.execute('{ hello }')\nprint(result.data['hello'])  # 'Hello World'"
+    },
+    "structlog": {
+        "syntax": "import structlog",
+        "example": "import structlog\n\nlogger = structlog.get_logger()\nlogger.info('Hello, World!', key1='value1', key2='value2')\n\n# Configure structlog to output JSON\nstructlog.configure(\n    processors=[structlog.processors.JSONRenderer()]\n)\nlogger.info('Structured logging', event='example', status='success')"
+    },
+    "hypothesis": {
+        "syntax": "from hypothesis import given, strategies as st",
+        "example": "from hypothesis import given, strategies as st\n\ndef encode_decode(x):\n    return x.encode('utf-8').decode('utf-8')\n\n@given(st.text())\ndef test_encode_decode(s):\n    assert encode_decode(s) == s\n\n# Run with pytest: pytest test_hypothesis.py"
+    },
+    "pattern matching (Python 3.10+)": {
+        "syntax": "match subject:\n    case pattern1:\n        # code\n    case pattern2:\n        # code",
+        "example": "def http_error(status):\n    match status:\n        case 400:\n            return 'Bad request'\n        case 404:\n            return 'Not found'\n        case 418:\n            return 'I'm a teapot'\n        case _:\n            return 'Something's wrong with the internet'\n\nprint(http_error(404))  # 'Not found'"
+    },
+    "typing with Protocols": {
+        "syntax": "from typing import Protocol",
+        "example": "from typing import Protocol, List\n\nclass Drawable(Protocol):\n    def draw(self) -> None:\n        ...\n\nclass Circle:\n    def draw(self) -> None:\n        print('Drawing a circle')\n\nclass Square:\n    def draw(self) -> None:\n        print('Drawing a square')\n\ndef draw_all(shapes: List[Drawable]) -> None:\n    for shape in shapes:\n        shape.draw()\n\ndraw_all([Circle(), Square()])  # Valid, both Circle and Square implement Drawable"
+    },
+    "functools.cache (Python 3.9+)": {
+        "syntax": "from functools import cache",
+        "example": "from functools import cache\n\n@cache\ndef fibonacci(n):\n    if n < 2:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)\n\nprint([fibonacci(n) for n in range(10)])  # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]"
     }
-=======
-    "input": {
-        "syntax": "input(prompt)",
-        "example": "name = input(Enter your name: )\nprint(name)"
-    },
-    "len": {
-        "syntax": "len(object)",
-        "example": "my_list = [1, 2, 3, 4]\nlen(my_list)"
-    },
-    "map": {
-        "syntax": "map(function, iterable)",
-        "example": "print(list(map(lambda x: x ** 2, [1, 2, 3])))"
-    },
-    "filter": {
-        "syntax": "filter(function, iterable)",
-        "example": "print(list(filter(lambda x: x < 5, [1, 2, 3, 4, 5])))"
-    },
-    "decorators": {
-        "syntax": "@decorator(function)",
-        "example": "def my_decorator(func):\n\tdef caller():\n\t\tprint(before called.)"
-                   "\n\t\tfunc()\n\t\tprint(after called.)\n\treturn caller\n"
-                   "\n@my_decorator\ndef say_hi():\n\tprint(Hi)\nsay_hi()",
-    },
-
 }
-
-
-def show_command_example(event=None):
-    command = command_combo.get()
-    if command in commands:
-        syntax = commands[command]['syntax']
-        example = commands[command]['example']
-    else:
-        syntax = "No syntax available"
-        example = "No example available"
-
-    syntax_text.delete(1.0, tk.END)
-    syntax_text.insert(tk.END, syntax)
-
-    example_text.delete(1.0, tk.END)
-    example_text.insert(tk.END, example)
-
-
-def search_commands(*args):
-    query = search_var.get().lower()
-    filtered_commands = [cmd for cmd in commands if query in cmd.lower()]
-    command_combo['values'] = filtered_commands
-
-
-root = tk.Tk()
-root.title("Python Commands with Examples BY Pythonism")
-
-
-search_var = tk.StringVar()
-search_var.trace("w", search_commands)
-
-search_label = ttk.Label(root, text="Search Python Command:")
-search_label.pack(pady=5)
-
-search_entry = ttk.Entry(root, textvariable=search_var)
-search_entry.pack(pady=5)
-
-
-command_label = ttk.Label(root, text="Select Python Command:")
-command_label.pack(pady=5)
-
-command_combo = ttk.Combobox(root, values=list(commands.keys()))
-command_combo.pack(pady=5)
-command_combo.bind("<<ComboboxSelected>>", show_command_example)
-
-
-syntax_label = ttk.Label(root, text="Syntax:")
-syntax_label.pack(pady=5)
-
-syntax_text = tk.Text(root, height=5, width=60)
-syntax_text.pack(pady=5)
-
-
-example_label = ttk.Label(root, text="Example:")
-example_label.pack(pady=5)
-
-example_text = tk.Text(root, height=10, width=60)
-example_text.pack(pady=5)
-
-
-root.mainloop()
