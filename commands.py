@@ -24,6 +24,10 @@ commands = {
         "syntax": "class ClassName:\n    def __init__(self, parameters):\n        # constructor code\n    def method(self, parameters):\n        # method code",
         "example": "class BankAccount:\n    def __init__(self, balance=0):\n        self.balance = balance\n    def deposit(self, amount):\n        self.balance += amount\n    def withdraw(self, amount):\n        if self.balance >= amount:\n            self.balance -= amount\n        else:\n            print('Insufficient funds')\n\naccount = BankAccount(100)\naccount.deposit(50)\naccount.withdraw(75)\nprint(account.balance)  # Prints: 75"
     },
+    "inheritance": {
+        "syntax": "class ChildClassName(SuperClassName):\n    def __init__(self, parameters):\n     super().__init__(parameters)\n   def method(self, parameters):\n        # method code",
+        "example": "class ElectricCar(Car):\n    def __init__(self, model):\n        super().__init__(model)\n    def charge(self):\n        self.charge_level = 100\n\nmy_ecar = ElectricCar('tesla')\nmy_ecar.charge()\nmy_ecar.drive()"
+    },
     "try": {
         "syntax": "try:\n    # code that might raise an exception\nexcept ExceptionType as e:\n    # code to handle the exception\nelse:\n    # code to run if no exception occurred\nfinally:\n    # code that always runs",
         "example": "def divide(x, y):\n    try:\n        result = x / y\n    except ZeroDivisionError as e:\n        print(f'Error: {e}')\n    else:\n        print(f'Result is {result}')\n    finally:\n        print('Execution completed')\n\ndivide(10, 2)\ndivide(10, 0)"
